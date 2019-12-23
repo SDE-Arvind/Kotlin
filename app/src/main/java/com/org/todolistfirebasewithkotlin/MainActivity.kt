@@ -44,10 +44,10 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                     val todoHash = dataSnapshot.value as HashMap<*, *>
 
                     for ((k, v) in todoHash) {
-                     // converted datasnapshot ot json format
+                        // converted datasnapshot ot json format
                         val jaon=   JSONObject(v.toString())
 
-                     //parse json to modal class
+                        //parse json to modal class
                         val result = Klaxon()
                             .parse<ToDoItem>(jaon.toString())
                         todos.add(result)

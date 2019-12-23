@@ -11,13 +11,13 @@ import kotlinx.android.synthetic.main.todo_list_item.view.*
 /**
  * Created by arvind on 2019-12-18
  */
-class ToDoAdapter( val items :List<ToDoItem?> ,val context:Context, val ref:DatabaseReference) :RecyclerView.Adapter<ViewHolder>() {
+class ToDoAdapter( val items :MutableList<ToDoItem?> ,val context:Context, val ref:DatabaseReference) :RecyclerView.Adapter<ViewHolder>() {
 
     // Binds each animal in the ArrayList to a view
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
 
-            val item: ToDoItem ?= items.get(position);
+        val item: ToDoItem ?= items.get(position);
         if(item!=null) {
             holder.checkboxItem?.text = item.level
             holder.checkboxItem.isChecked = item.status
@@ -28,6 +28,12 @@ class ToDoAdapter( val items :List<ToDoItem?> ,val context:Context, val ref:Data
                 //update status on firebase
                 ref.child(item.id).setValue(item);
             }
+
+            holder.buttonDelete.setOnClickListener(View.OnClickListener {
+                ref.child(item.id).removeValue()
+                items.remove(item)
+                notifyDataSetChanged()
+            })
         }
     }
 
@@ -45,4 +51,5 @@ class ToDoAdapter( val items :List<ToDoItem?> ,val context:Context, val ref:Data
 class ViewHolder (view: View) : RecyclerView.ViewHolder(view) {
     // Holds the TextView that will add each animal to
     val checkboxItem = view.checkBox_item
+    val buttonDelete = view.button_task_delete
 }

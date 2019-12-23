@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">TODOListFirebaseWithKotlin</string>
+    <string name="app_name">TODOListFirebase</string>
     <string name="add">Add</string>
-    <string name="write_yor_todo_item">Write yor TODO item</string>
+    <string name="write_yor_todo_item">Write Your TODO item to add</string>
 </resources>
