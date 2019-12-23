@@ -35,15 +35,10 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
 
         recyclerView_todo_list.adapter = adapter;
 
-        // Read from the database
-        myRef.addValueEventListener(object : ValueEventListener {
+        // Read from the database only once for initialization
+        myRef.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
-                // This method is called once with the initial value and again
-                // whenever data at this location is updated.
-
-                //clear to_do list, we can optimise insted of clearing we can modify
-                todos.clear()
-
+                // This method is called once with the initial value
 
                 if (dataSnapshot.exists()) {
                     val todoHash = dataSnapshot.value as HashMap<*, *>
@@ -80,14 +75,14 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                     val id: String = myRef.push().key.toString()
 
                     val todoItem = ToDoItem(id, level)
-                    todos.add(todoItem)
-
-                    adapter.notifyDataSetChanged()
 
                     editText_todo_item.setText("")
 
                     //save data on firebase
-                    myRef.child(id).setValue(todoItem)
+                    val a = myRef.child(id).setValue(todoItem)
+
+                    todos.add(todoItem)
+                    adapter.notifyDataSetChanged()
 
                     Toast.makeText(
                         this,
